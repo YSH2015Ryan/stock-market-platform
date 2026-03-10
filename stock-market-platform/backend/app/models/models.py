@@ -123,7 +123,7 @@ class MarketReport(Base):
     content = Column(Text, nullable=False)
     summary = Column(Text)
     market = Column(SQLEnum(MarketType))
-    metadata = Column(JSON)  # Store additional structured data
+    meta_data = Column(JSON)  # Store additional structured data
     report_date = Column(DateTime(timezone=True), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Stock Market Intelligence Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #1a202c;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .indices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .index-card {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .index-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .index-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .index-symbol {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #2d3748;
+        }
+
+        .index-market {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .market-US {
+            background: #ebf8ff;
+            color: #2c5282;
+        }
+
+        .market-CN {
+            background: #fef5e7;
+            color: #c53030;
+        }
+
+        .market-HK {
+            background: #f0fff4;
+            color: #22543d;
+        }
+
+        .index-name {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .index-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .index-change {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .positive {
+            color: #38a169;
+        }
+
+        .negative {
+            color: #e53e3e;
+        }
+
+        .news-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .news-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .news-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .news-source {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .news-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-content {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            text-align: center;
+            color: #4a5568;
+            margin-top: 2rem;
+        }
+
+        .disclaimer {
+            margin-top: 0.5rem;
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌍 Global Stock Market Intelligence Platform</h1>
+        <p class="subtitle">AI-Powered Market Analysis & Real-time Data</p>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2 class="section-title">📊 Market Overview</h2>
+            <div id="indices-grid" class="indices-grid">
+                <div class="loading">Loading market data...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📰 Latest Market News</h2>
+            <div id="news-list" class="news-list">
+                <div class="loading">Loading news...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🔧 Quick Actions</h2>
+            <div class="actions-grid">
+                <button class="action-btn" onclick="alert('Stock Screener - Coming Soon!')">📈 Stock Screener</button>
+                <button class="action-btn" onclick="alert('My Portfolio - Coming Soon!')">💼 My Portfolio</button>
+                <button class="action-btn" onclick="alert('Market Reports - Coming Soon!')">📊 Market Reports</button>
+                <button class="action-btn" onclick="alert('AI Assistant - Coming Soon!')">🤖 AI Assistant</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 Global Stock Market Intelligence Platform | AI-Powered Market Analysis</p>
+        <p class="disclaimer">⚠️ For educational purposes only. Not financial advice.</p>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+
+        async function fetchMarketData() {
+            try {
+                // Fetch indices
+                const indicesResponse = await fetch(`${API_URL}/api/v1/indices`);
+                const indices = await indicesResponse.json();
+                renderIndices(indices);
+
+                // Fetch news
+                const newsResponse = await fetch(`${API_URL}/api/v1/news`);
+                const news = await newsResponse.json();
+                renderNews(news);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('indices-grid').innerHTML = '<div class="loading">Error loading data. Please ensure backend is running on port 8000.</div>';
+            }
+        }
+
+        function renderIndices(indices) {
+            const grid = document.getElementById('indices-grid');
+            grid.innerHTML = indices.map(index => {
+                const isPositive = index.change >= 0;
+                const changeClass = isPositive ? 'positive' : 'negative';
+                const arrow = isPositive ? '▲' : '▼';
+
+                return `
+                    <div class="index-card">
+                        <div class="index-header">
+                            <span class="index-symbol">${index.symbol}</span>
+                            <span class="index-market market-${index.market}">${index.market}</span>
+                        </div>
+                        <div class="index-name">${index.name}</div>
+                        <div class="index-value">${index.value.toFixed(2)}</div>
+                        <div class="index-change ${changeClass}">
+                            ${arrow} ${Math.abs(index.change_percent).toFixed(2)}%
+                            (${isPositive ? '+' : ''}${index.change.toFixed(2)})
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderNews(news) {
+            const list = document.getElementById('news-list');
+            list.innerHTML = news.map(item => {
+                const emoji = item.sentiment === 'positive' ? '📈' : 
+                             item.sentiment === 'negative' ? '📉' : '📊';
+
+                return `
+                    <div class="news-item">
+                        <div class="news-header">
+                            <span class="news-source">${item.source}</span>
+                            <span>${emoji}</span>
+                        </div>
+                        <div class="news-title">${item.title}</div>
+                        <div class="news-content">${item.content}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Fetch data on page load
+        fetchMarketData();
+
+        // Refresh data every 30 seconds
+        setInterval(fetchMarketData, 30000);
+    </script>
+</body>
+</html>

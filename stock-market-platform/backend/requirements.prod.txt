@@ -1,0 +1,64 @@
+# 优化后的生产环境依赖 - 适用于免费云服务
+# 移除了大型机器学习库以适应 512MB 内存限制
+
+# Core Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+psycopg2-binary==2.9.9
+
+# Data Validation
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# HTTP Clients
+aiohttp==3.9.1
+httpx==0.26.0
+
+# Cache & Queue
+redis==5.0.1
+
+# Scheduler
+apscheduler==3.10.4
+
+# Configuration
+python-dotenv==1.0.0
+
+# Data Processing (轻量级)
+pandas==2.1.4
+numpy==1.26.3
+
+# Financial Data
+yfinance==0.2.35
+alpha-vantage==2.3.1
+
+# Web Scraping
+beautifulsoup4==4.12.3
+lxml==5.1.0
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.23.3
+pytest-cov==4.1.0
+
+# Monitoring
+python-json-logger==2.0.7
+
+# CORS
+fastapi-cors==0.0.6
+
+# Note: 移除了以下大型依赖以适应免费云服务:
+# - torch (1.5GB+)
+# - transformers (1GB+)
+# - openai (可选，使用API时才需要)
+# - anthropic (可选，使用API时才需要)
+# - celery (可用 APScheduler 替代)
+# - scikit-learn (可选，按需添加)

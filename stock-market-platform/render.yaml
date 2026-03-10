@@ -1,0 +1,45 @@
+services:
+  # Backend API Service
+  - type: web
+    name: stock-market-backend
+    runtime: python
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: stock-market-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: stock-market-redis
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: CORS_ORIGINS
+        value: https://your-frontend-url.vercel.app
+      - key: ALLOWED_HOSTS
+        value: "*"
+    plan: free
+
+  # PostgreSQL Database
+  - type: postgres
+    name: stock-market-db
+    databaseName: stock_market
+    user: stock_user
+    plan: free
+    ipAllowList: []
+
+  # Redis Cache
+  - type: redis
+    name: stock-market-redis
+    plan: free
+    maxmemoryPolicy: allkeys-lru
+    ipAllowList: []

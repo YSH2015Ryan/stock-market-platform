@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:8000"]
 
     # Database
-    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/stock_market"
+    DATABASE_URL: str = "sqlite:///./stock_market.db"
 
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
